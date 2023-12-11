@@ -8,6 +8,12 @@ import (
 	"paddex.net/aoc/types"
 )
 
+type appTest struct {
+	name  string
+	input types.App
+	want  int
+}
+
 func TestP1(t *testing.T) {
 	input, err := os.ReadFile("../testinput1")
 	if err != nil {
@@ -21,10 +27,39 @@ func TestP1(t *testing.T) {
 		Input:  string(input),
 	}
 
-	got := P1(app)
-	want := 142
+	tests := []appTest{
+		{"testinput1", app, 142},
+	}
 
-	if got != want {
-		t.Errorf("Ergebnis: %d, Erwartet: %d", got, want)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := P1(test.input)
+
+			if got != test.want {
+				t.Errorf("TEST: %s: got %v, want %v", test.name, got, test.want)
+			}
+		})
+	}
+}
+
+type funcTest struct {
+	name  string
+	input string
+	want  int
+}
+
+func TestFunc(t *testing.T) {
+	tests := []funcTest{
+		{"testinput1", "abc", 142},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := someFunc(test.input)
+
+			if got != test.want {
+				t.Errorf("TEST: %s: got %v, want %v", test.name, got, test.want)
+			}
+		})
 	}
 }
